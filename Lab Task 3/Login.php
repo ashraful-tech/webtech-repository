@@ -41,13 +41,18 @@
 
 <?php
 
+	
+
 if (isset($_POST['submit'])) {
 
-	if(!preg_match("/^\w{5,}$/", $_POST['username'])) {
+	$username = $_POST['username'];
+	$password = $_POST['password'];
+
+	if(!preg_match("/^\w{5,}$/", $username)) {
 		echo "User name must contain alpha numaric, period, dash or underscore <br>";  //[0-9A-Za-z_]
 	}
 
-	if (!preg_match("/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/i", $_POST['password'])) {
+	if (!preg_match("/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/i", $password )) {
 		echo "Password Invalid";
 	}
 
