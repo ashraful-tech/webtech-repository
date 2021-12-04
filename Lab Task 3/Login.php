@@ -13,15 +13,16 @@
 		<br />
 
 		<p><span class="error">* required field</span></p>
-		<form method="POST" action= "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+		<form method="POST" action= "<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
 			
 			<br />
 			<label>User name</label>
 			<input type="text" name="username" class="form-control" / required="username"> <br />
+			<!-- <span class="error">*<?php echo $usernameErr ; ?> </span> <br /> -->
 
 			<label>Password</label>
 			<input type="password" name="password" class="form-control" / required="password" > 
-			<!-- <span class="error">* <?php echo $passErr ; ?> </span> -->
+			
 			<br />
 
 			<!-- <select></select> -->
@@ -41,15 +42,13 @@
 
 <?php
 
-	
-
 if (isset($_POST['submit'])) {
 
 	$username = $_POST['username'];
 	$password = $_POST['password'];
 
 	if(!preg_match("/^\w{5,}$/", $username)) {
-		echo "User name must contain alpha numaric, period, dash or underscore <br>";  //[0-9A-Za-z_]
+		$usernameErr = "User name must contain alpha numaric, period, dash or underscore <br>";  //[0-9A-Za-z_]
 	}
 
 	if (!preg_match("/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/i", $password )) {
