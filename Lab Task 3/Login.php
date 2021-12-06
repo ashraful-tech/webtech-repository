@@ -14,14 +14,25 @@
 
 		<p><span class="error">* required field</span></p>
 		<form method="POST" action= "<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>">
+
+			<?php if (isset($error)) {
+				echo $error;
+			} ?>
 			
 			<br />
 			<label>User name</label>
 			<input type="text" name="username" class="form-control" / required="username"> <br />
 			<!-- <span class="error">*<?php echo $usernameErr ; ?> </span> <br /> -->
+			<?php
+			if (isset($username)) {
+			 	echo $usernameErr;
+			 }  ?>
 
 			<label>Password</label>
 			<input type="password" name="password" class="form-control" / required="password" > 
+
+			<?php if (isset($password)){
+				echo $passErr;}  ?>
 			
 			<br />
 
@@ -42,6 +53,12 @@
 
 <?php
 
+$error = '';
+$message = '';
+
+$usernameErr = '';
+$passErr = '';
+
 if (isset($_POST['submit'])) {
 
 	$username = $_POST['username'];
@@ -52,9 +69,29 @@ if (isset($_POST['submit'])) {
 	}
 
 	if (!preg_match("/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/i", $password )) {
-		echo "Password Invalid";
+		$passErr = "Password Invalid";
 	}
 
-
-}
+	if(file_exists('data.json'))  
+           {  
+                $current_data = file_get_contents('data.json');  
+                $array_data = json_decode($current_data, true);  
+                $extra = array(  
+                     'name'    =>$_POST['username'],  
+                     'e-mail'  =>$_POST["password"],  
+                );  
+                $array_data[] = $extra;  
+                $final_data = json_encode($array_data);  
+                if(file_put_contents('data.json', $final_data))  
+                {  
+                     $message = "<label class='text-success'>File Appended Success fully</p>";  
+                }  
+           }  
+      
+      }
+      else  
+           {  
+                $error = 'JSON File does not exist';  
+           }  
 ?>
+
